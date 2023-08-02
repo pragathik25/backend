@@ -1,0 +1,15 @@
+new_module.controller:
+  path: '/controller-page'
+  defaults:
+    _controller: '\Drupal\new_module\Controller\ControllerHello::nodeLoad'
+    _title: 'controller page'
+  requirements:
+    _permission: "access content"
+
+new_module.controllertwo:
+  path: '/controller-refer'
+  defaults:
+    _controller: '\Drupal\new_module\Controller\ControllerRefer::loadNode'
+    _title: 'controller page'
+  requirements:
+    _permission: "access content"

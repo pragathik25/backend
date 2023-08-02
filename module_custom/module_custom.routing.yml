@@ -1,0 +1,9 @@
+module_custom.token_form:
+  path: "/token-demo"
+  defaults:
+    _form: '\Drupal\module_custom\Form\TokenForm'
+    _title: "token demo "
+  requirements:
+    _permission: "access content"
+  options:
+    _admin_route: TRUE

@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for module_custom module.
+ */
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_mail().
+ */
+function module_custom_mail($key, &$message, $params) {
+  $options = [
+    'langcode' => $message['langcode'],
+  ];
+
+  switch ($key) {
+    case 'create_page':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['text'];
+      break;
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function module_custom_entity_insert(EntityInterface $entity) {
+
+  if ($entity->getEntityTypeId() != 'node') {
+    return;
+  }
+
+  $mailManager = \Drupal::service('plugin.manager.mail');
+
+  $module = 'module_custom';
+  $key = 'create_page';
+  $to = \Drupal::currentUser()->getEmail();
+  $config = \Drupal::config('module_custom.settings');
+  $message = $config->get('subject');
+  $text = $config->get('text')['value'];
+  $token_service = \Drupal::token();
+  $sub_message = $token_service->replace($message, ['node' => $entity], ['clear' => TRUE]);
+  $sub_text = $token_service->replace($text, ['node' => $entity], ['clear' => TRUE]);
+  $params['subject'] = $sub_message;
+  $params['text'] = $sub_text;
+  $langcode = \Drupal::currentUser()->getPreferredLangcode();
+  $send = TRUE;
+
+  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+  if ($result['result'] !== TRUE) {
+
+    \Drupal::messenger()->addMessage(t('There was a problem sending your message and it was not sent'), 'error');
+  }
+  else {
+
+    \Drupal::messenger()->addMessage(t('Your message has been sent.'), 'status');
+  }
+
+}
+
+function module_custom_mail_alter(&$message) {
+  $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+}

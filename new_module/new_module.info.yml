@@ -1,0 +1,4 @@
+name: 'new module'
+description: 'new module description'
+type: module
+core_version_requirement: ^9 || ^10

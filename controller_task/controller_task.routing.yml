@@ -1,0 +1,20 @@
+controller_task.example:
+  path: '/node/{node}/details'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\controller_task\Controller\ControllerTaskController::build'
+  requirements:
+    _permission: 'access permission for node details'
+  options:
+    _admin_route: TRUE
+    parameters:
+      node:
+        type: entity:node
+
+controller_task.custom_demo:
+  path: "/custom-demo"
+  defaults:
+    _form: '\Drupal\controller_task\Form\CustomForm'
+    _title: "user details "
+  requirements:
+    _permission: "access content"

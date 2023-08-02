@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Implement hook_schema().
+ */
+
+function controller_task_schema() {
+  $schema['custom_form'] = [
+    'description' => 'node details',
+    'fields' => [
+      'id' => [
+        'description' => 'Holds the id',
+        'type' => 'serial',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ],
+      'title' => [
+        'description' => 'node title',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+      ],
+      'user' => [
+        'description' => 'Logged In User ',
+        'type' => 'int',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+  return $schema;
+}
