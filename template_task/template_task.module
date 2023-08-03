@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Implementing some hooks.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function template_task_theme($existing, $type, $theme, $path) {
+  return [
+    'controller_template' => [
+      'variables' => [
+        'text' => "",
+        'title' => "",
+        'color' => "",
+      ],
+    ],
+  ];
+}
