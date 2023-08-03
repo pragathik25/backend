@@ -1,0 +1,7 @@
+dropdown_task.settings_form:
+  path: '/dropdown-task'
+  defaults:
+    _title: 'dropdown task'
+    _form: 'Drupal\dropdown_task\Form\DropdownForm'
+  requirements:
+    _permission: 'access content'

@@ -48,7 +48,7 @@ class CustomForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, $node_title = NULL , $current_user = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, $node_title = NULL, $current_user = NULL) {
 
     $form['title'] = [
       '#type' => 'textfield',

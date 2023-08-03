@@ -1,0 +1,6 @@
+services:
+  event_subscriber_task.event_subscriber:
+    class: Drupal\event_subscriber_task\EventSubscriber\EventSubscriberTaskSubscriber
+    arguments: ['@messenger']
+    tags:
+      - { name: event_subscriber }

@@ -1,0 +1,189 @@
+<?php
+
+/**
+ * @file
+ * Implement hook_update_N().
+ */
+
+/**
+ * Implements hook_update_N().
+ *
+ * Create the tables for electronic item, model, and color.
+ */
+function dropdown_task_update_100409() {
+  $schema = \Drupal::database()->schema();
+  $connection = \Drupal::database();
+
+  if (!$schema->tableExists('electronic_item')) {
+    $table = [
+      'description' => 'electronic items ',
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'name' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ],
+      ],
+      'primary key' => ['id'],
+    ];
+    $schema->createTable('electronic_item', $table);
+  }
+
+  if (!$schema->tableExists('models')) {
+    $table = [
+      'description' => 'Models table',
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'item_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'Foreign key to item table',
+        ],
+        'name' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ],
+      ],
+      'primary key' => ['id'],
+      'foreign keys' => [
+        'item_id' => [
+          'table' => 'electronic_item',
+          'columns' => ['item_id' => 'id'],
+        ],
+      ],
+    ];
+    $schema->createTable('models', $table);
+  }
+
+  if (!$schema->tableExists('color')) {
+    $table = [
+      'description' => 'color table',
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'model_id' => [
+          'type' => 'int',
+          'not null' => TRUE,
+          'description' => 'Foreign key to model table',
+        ],
+        'name' => [
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+        ],
+      ],
+      'primary key' => ['id'],
+      'foreign keys' => [
+        'model_id' => [
+          'table' => 'models',
+          'columns' => ['model_id' => 'id'],
+        ],
+      ],
+    ];
+    $schema->createTable('color', $table);
+  }
+
+  $connection->insert('electronic_item')
+    ->fields(['name'])
+    ->values(['mobile'])
+    ->values(['laptop'])
+    ->values(['tabs'])
+    ->execute();
+
+  $connection->insert('models')
+    ->fields(['item_id', 'name'])
+    ->values([1, 'Moto g40'])
+    ->values([1, 'Samsung Galaxy s23'])
+    ->values([1, 'iphone'])
+    ->values([1, 'Samsung Galaxy s10 lite'])
+    ->values([1, 'oppo'])
+    ->values([1, 'vivo'])
+    ->values([1, 'iphone 14'])
+    ->values([1, 'Samsung Galaxy '])
+    ->values([2, 'Lenovo Slim 5 intel core'])
+    ->values([2, 'Lenovo Slim 7 intel core'])
+    ->values([2, 'Hp 5 intel core'])
+    ->values([2, 'Hp 5 intel core'])
+    ->values([2, 'MacBook Pro'])
+    ->values([2, 'Hp 3 intel core'])
+    ->values([2, 'Hp 3 intel core'])
+    ->values([2, 'Slim 5 intel core'])
+    ->values([2, 'Slim 7 intel core'])
+    ->values([3, 'Acer One T9'])
+    ->values([3, 'Sumsung galaxy tab'])
+    ->values([3, 'Redmi tab'])
+    ->values([3, 'Lenova tab'])
+    ->values([3, 'Apple ipad'])
+    ->values([3, 'Acer '])
+    ->values([3, 'Redmi 10 tab'])
+    ->values([3, 'Lenova 10 tab'])
+    ->execute();
+
+  $connection->insert('color')
+    ->fields(['model_id', 'name'])
+    ->values([1, 'col 1'])
+    ->values([1, 'col 11'])
+    ->values([2, 'col 2'])
+    ->values([2, 'col 22'])
+    ->values([3, 'col 3'])
+    ->values([3, 'col 33'])
+    ->values([4, 'col 4'])
+    ->values([4, 'col 44'])
+    ->values([5, 'col 5'])
+    ->values([5, 'col 55'])
+    ->values([6, 'col 6'])
+    ->values([6, 'col 66'])
+    ->values([7, 'col 7'])
+    ->values([7, 'col 77'])
+    ->values([8, 'col 8'])
+    ->values([8, 'col 88'])
+    ->values([9, 'col 9'])
+    ->values([9, 'col 99'])
+    ->values([10, 'col 10'])
+    ->values([10, 'col 100'])
+    ->values([10, 'col 1000'])
+    ->values([11, 'col 11'])
+    ->values([11, 'col 111'])
+    ->values([12, 'col 12'])
+    ->values([12, 'col 122'])
+    ->values([13, 'col 13'])
+    ->values([13, 'col 133'])
+    ->values([14, 'col 14'])
+    ->values([14, 'col 144'])
+    ->values([15, 'col 15'])
+    ->values([15, 'col 155'])
+    ->values([16, 'col 16'])
+    ->values([16, 'col 166'])
+    ->values([17, 'col 17'])
+    ->values([17, 'col 177'])
+    ->values([18, 'col 18'])
+    ->values([18, 'col 188'])
+    ->values([19, 'col 19'])
+    ->values([19, 'col 199'])
+    ->values([20, 'col 20'])
+    ->values([20, 'col 200'])
+    ->values([21, 'col 211'])
+    ->values([21, 'col 2111'])
+    ->values([22, 'col 222'])
+    ->values([22, 'col 2222'])
+    ->values([23, 'col 23'])
+    ->values([23, 'col 233'])
+    ->values([24, 'col 24'])
+    ->values([24, 'col 244'])
+    ->values([25, 'col 25'])
+    ->values([25, 'col 255'])
+    ->execute();
+}

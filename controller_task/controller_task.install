@@ -5,6 +5,9 @@
  * Implement hook_schema().
  */
 
+/**
+ * Creating table.
+ */
 function controller_task_schema() {
   $schema['custom_form'] = [
     'description' => 'node details',
