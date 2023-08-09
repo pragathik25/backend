@@ -1,0 +1,8 @@
+# Schema for the configuration files of the roles_task module.
+roles_task.settings:
+  type: config_object
+  label: 'roles_task settings'
+  mapping:
+    example:
+      type: string
+      label: 'Example'

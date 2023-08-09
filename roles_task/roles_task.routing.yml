@@ -1,0 +1,9 @@
+roles_task.settings_form:
+  path: '/roles-task'
+  defaults:
+    _title: 'roles_task settings'
+    _form: 'Drupal\roles_task\Form\SettingsForm'
+  requirements:
+    _permission: 'administer roles_task configuration'
+  options:
+    _admin_route: TRUE

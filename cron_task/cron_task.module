@@ -1,0 +1,62 @@
+<?php
+
+use Drupal\node\Entity\Node;
+
+function cron_task_mail($key, &$message, $params) {
+  $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+  switch ($key) {
+    case 'log_mail':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['text'];
+      break;
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function cron_task_cron() {
+  // exit;
+  $lastCronRun = \Drupal::state()->get('lastcronrun');
+  $currentTimestamp = \Drupal::time()->getCurrentTime();
+  if (empty($lastCronRun) || ($currentTimestamp - $lastCronRun) >= 1) {
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'logs')
+      ->condition('created', $lastCronRun, '>')
+      ->accessCheck(FALSE);
+
+    $nids = $query->execute();
+// print_r($nids);exit;
+    foreach ($nids as $nid) {
+      $node = Node::load($nid);
+      $config = \Drupal::config('module_custom.settings');
+      $subject = $config->get('subject');
+      $text = $config->get('text')['value'];
+      // print_r($subject);exit;
+      $tokenService = \Drupal::token();
+      $sub_message = $tokenService->replace($subject, ['node' => $node], ['clear' => TRUE]);
+      $sub_text = $tokenService->replace($text, ['node' => $node], ['clear' => TRUE]);
+      $params = [
+        'subject' => $sub_message,
+        'text' => $sub_text,
+      ];
+      $module = 'cron_task';
+      $key = 'log_mail';
+      $to = 'pkshetty4446@gmail.com';
+      $langcode = \Drupal::currentUser()->getPreferredLangcode();
+
+      $mailManager = \Drupal::service('plugin.manager.mail');
+      $send = TRUE;
+      $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+
+      if ($result['result'] !== TRUE) {
+        \Drupal::messenger()->addMessage(t('There was a problem sending the email.'), 'error');
+      } else {
+        \Drupal::messenger()->addMessage(t('Email has been sent successfully.'), 'status');
+      }
+    }
+
+    \Drupal::state()->set('lastcronrun', $currentTimestamp);
+  }
+}

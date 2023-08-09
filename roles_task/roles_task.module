@@ -1,0 +1,43 @@
+<?php
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_node_access().
+ */
+function roles_task_node_access(NodeInterface $node, $op, AccountInterface $account) {
+  if ($op === 'view') {
+    if ($account->isAnonymous()) {
+      $config = \Drupal::config('roles_task.settings');
+      $content_types = $config->get('content_types');
+      if (!in_array($node->getType(), $content_types)) {
+        return AccessResult::forbidden();
+      }
+    } else {
+      $config = \Drupal::config('roles_task.settings');
+      $roles = $config->get('roles');
+
+      $user_roles = $account->getRoles();
+      $allowed = false;
+
+      foreach ($user_roles as $user_role) {
+        if (in_array($user_role, $roles)) {
+          $allowed = true;
+          break;
+        }
+      }
+
+      if (!$allowed) {
+        return AccessResult::forbidden();
+      }
+
+      $content_types = $config->get('content_types');
+      if (!in_array($node->getType(), $content_types)) {
+        return AccessResult::forbidden();
+      }
+    }
+  }
+  return AccessResult::neutral();
+}

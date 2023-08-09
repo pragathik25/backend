@@ -1,0 +1,9 @@
+cron_task.token_form:
+  path: "/token-demo"
+  defaults:
+    _form: '\Drupal\cron_task\Form\TokenForm'
+    _title: "token demo "
+  requirements:
+    _permission: "access content"
+  options:
+    _admin_route: TRUE

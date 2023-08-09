@@ -13,3 +13,5 @@ template_task.settings_form:
     _form: 'Drupal\template_task\Form\SettingsForm'
   requirements:
     _permission: 'administer template_task configuration'
+  options:
+    _admin_route: TRUE

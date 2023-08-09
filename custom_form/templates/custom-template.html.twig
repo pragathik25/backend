@@ -1,0 +1,22 @@
+<table>
+    <tr>
+      <td>id</td>
+      <td>first name</td>
+      <td>last name</td>
+      <td>email</td>
+      <td>phone no</td>
+      <td>gender</td>
+    </tr>
+    {% for data in rows %}
+        <tr>
+        {% for items in data %}
+            <td>{{ items.0 }}</td>
+            <td>{{ items.1 }}</td>
+            <td>{{ items.2 }}</td>
+            <td>{{ items.3 }}</td>
+            <td>{{ items.4 }}</td>
+            <td>{{ items.5 }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
