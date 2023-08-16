@@ -23,8 +23,9 @@ class EventSubscriberTaskSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[KernelEvents::RESPONSE][] = ['onKernelResponse', -10];
-    return $events;
+    return [
+      KernelEvents::RESPONSE => ['onKernelResponse'],
+    ];
   }
 
 }

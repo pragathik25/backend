@@ -1,0 +1,6 @@
+config_prepopulate.settings_form:
+  title: 'config_prepopulate'
+  description: 'Configure config_prepopulate.'
+  parent: system.admin_config_system
+  route_name: config_prepopulate.settings_form
+  weight: 10
