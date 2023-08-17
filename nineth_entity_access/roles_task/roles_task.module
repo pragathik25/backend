@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Implementing some hooks.
+ */
+
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\NodeInterface;
@@ -15,16 +20,17 @@ function roles_task_node_access(NodeInterface $node, $op, AccountInterface $acco
       if (!in_array($node->getType(), $content_types)) {
         return AccessResult::forbidden();
       }
-    } else {
+    }
+    else {
       $config = \Drupal::config('roles_task.settings');
       $roles = $config->get('roles');
 
       $user_roles = $account->getRoles();
-      $allowed = false;
+      $allowed = FALSE;
 
       foreach ($user_roles as $user_role) {
         if (in_array($user_role, $roles)) {
-          $allowed = true;
+          $allowed = TRUE;
           break;
         }
       }

@@ -18,6 +18,8 @@ class CustomFormController extends ControllerBase {
   protected $database;
 
   /**
+   * Constructs a SettingsForm object.
+   *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
    */
@@ -40,13 +42,17 @@ class CustomFormController extends ControllerBase {
   public function build() {
 
     $result = $this->database->select("custom_form_example", 'n')
-      ->fields('n', ['id', 'first_name', 'last_name', 'email', 'phone_no', 'gender'])
+      ->fields('n', ['id', 'first_name', 'last_name', 'email',
+        'phone_no', 'gender',
+      ])
       ->execute()->fetchAllAssoc('id');
 
     $rows = [];
     foreach ($result as $row => $content) {
       $rows[] = [
-        'data' => [$content->id, $content->first_name, $content->last_name, $content->email, $content->phone_no, $content->gender],
+        'data' => [$content->id, $content->first_name, $content->last_name,
+          $content->email, $content->phone_no, $content->gender,
+        ],
       ];
     }
 

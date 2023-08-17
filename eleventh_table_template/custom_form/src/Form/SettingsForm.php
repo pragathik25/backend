@@ -19,6 +19,8 @@ class SettingsForm extends FormBase {
   protected $database;
 
   /**
+   * Constructs a SettingsForm object.
+   *
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
    */

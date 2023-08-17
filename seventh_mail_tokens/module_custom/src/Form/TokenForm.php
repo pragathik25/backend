@@ -4,11 +4,40 @@ namespace Drupal\module_custom\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Extension\ModuleHandler;
 
 /**
  * Implements the example form.
  */
 class TokenForm extends ConfigFormBase {
+
+  /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandler
+   */
+  protected $moduleHandler;
+
+  /**
+   * Constructs a SettingsForm object.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandler $moduleHandler
+   *   The module Handler service.
+   */
+  public function __construct(ModuleHandler $moduleHandler) {
+    $this->moduleHandler = $moduleHandler;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('module_handler')
+    );
+  }
+
   const CONFIGNAME = "module_custom.settings";
 
   /**
@@ -49,7 +78,7 @@ class TokenForm extends ConfigFormBase {
       '#default_value' => $config->get("text")['value'],
     ];
 
-    if (\Drupal::moduleHandler()->moduleExists('token')) {
+    if ($this->moduleHandler->moduleExists('token')) {
       $form['tokens'] = [
         '#title' => $this->t('Tokens'),
         '#type' => 'container',

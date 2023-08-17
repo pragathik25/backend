@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * @file
+ * Implementing some hooks.
+ */
+
 use Drupal\node\Entity\Node;
 
+/**
+ * Implements hook_mail().
+ */
 function cron_task_mail($key, &$message, $params) {
   $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
   switch ($key) {
@@ -17,7 +25,7 @@ function cron_task_mail($key, &$message, $params) {
  * Implements hook_cron().
  */
 function cron_task_cron() {
-  // exit;
+  // exit;.
   $lastCronRun = \Drupal::state()->get('lastcronrun');
   $currentTimestamp = \Drupal::time()->getCurrentTime();
   if (empty($lastCronRun) || ($currentTimestamp - $lastCronRun) >= 1) {
@@ -27,7 +35,7 @@ function cron_task_cron() {
       ->accessCheck(FALSE);
 
     $nids = $query->execute();
-// print_r($nids);exit;
+    // print_r($nids);exit;
     foreach ($nids as $nid) {
       $node = Node::load($nid);
       $config = \Drupal::config('module_custom.settings');
@@ -52,7 +60,8 @@ function cron_task_cron() {
 
       if ($result['result'] !== TRUE) {
         \Drupal::messenger()->addMessage(t('There was a problem sending the email.'), 'error');
-      } else {
+      }
+      else {
         \Drupal::messenger()->addMessage(t('Email has been sent successfully.'), 'status');
       }
     }

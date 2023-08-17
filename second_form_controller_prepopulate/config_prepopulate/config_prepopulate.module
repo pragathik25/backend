@@ -4,16 +4,14 @@
  * @file
  * Primary module hooks for config_prepopulate module.
  */
-use Drupal\taxonomy\Entity\Term;
+
 /**
-  * Implement hook_form_alter.
-  */
-
+ * Hook.
+ */
 function config_prepopulate_form_alter(&$form, &$form_state, $form_id) {
-// exit;
-
+  // exit;.
   if ($form_id == 'node_article_form') {
-    // exit;
+    // exit;.
     $config = \Drupal::config('config_prepopulate.settings');
     $title = $config->get('title');
     $tags = $config->get('tags');
@@ -23,13 +21,12 @@ function config_prepopulate_form_alter(&$form, &$form_state, $form_id) {
     // print_r($term_name);exit;
     $advanced = $config->get('advanced');
     // print_r($advanced);exit;
-
     $form['title']['widget'][0]['value']['#default_value'] = $title;
-    // print_r($form['field_tags']['widget']);exit;
+    // print_r($form['field_tags']['widget']);exit;.
     $form['field_tags']['widget']['target_id']['#default_value'] = $term_name;
 
-    if($advanced == 1) {
+    if ($advanced == 1) {
       $form['field_advanced']['widget']['value']['#default_value'] = $advanced;
     }
-}
+  }
 }

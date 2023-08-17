@@ -1,9 +1,13 @@
 <?php
 
 /**
- * Implement hook_theme.
+ * @file
+ * Implement some hook.
  */
 
+/**
+ * Hook.
+ */
 function custom_form_theme($existing, $type, $theme, $path) {
   return [
     'custom_template' => [
