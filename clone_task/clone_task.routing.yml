@@ -1,0 +1,8 @@
+clone_task.example:
+  path: '/clone-task/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\clone_task\Controller\CloneTaskController::cloneNode'
+  requirements:
+    _permission: 'access content'
+
