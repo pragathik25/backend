@@ -1,0 +1,4 @@
+config_lib:
+  version: 1.x
+  js:
+    js/form.js: {}

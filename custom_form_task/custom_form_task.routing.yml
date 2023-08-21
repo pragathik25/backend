@@ -1,0 +1,7 @@
+custom_form_task.example:
+  path: '/custom-form-task/example-demo'
+  defaults:
+    _title: 'Example'
+    _form: 'Drupal\custom_form_task\Form\ExampleForm'
+  requirements:
+    _permission: 'access content'
